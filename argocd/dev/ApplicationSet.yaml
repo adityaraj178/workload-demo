@@ -15,10 +15,18 @@ spec:
       name: '{{path[1]}}-dev'
     spec:
       project: "dev"
-      source:
-        repoURL: https://github.com/myspotontheweb/argocd-workloads-demo.git
-        targetRevision: HEAD
-        path: '{{path}}'
+      # source:
+      #   repoURL: https://github.com/myspotontheweb/argocd-workloads-demo.git
+      #   targetRevision: HEAD
+      #   path: '{{path}}'
+      sourceHydrator:
+        drySource:
+          repoURL: https://github.com/myspotontheweb/argocd-workloads-demo.git
+          targetRevision: HEAD
+          path: '{{path}}'
+        syncSource:
+          targetBranch: dev-hydration
+          path: ""
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{path[1]}}-dev'
