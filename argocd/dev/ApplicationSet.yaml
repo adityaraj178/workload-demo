@@ -24,11 +24,11 @@ spec:
           repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
           targetRevision: HEAD
           path: '{{path}}'
-{{- if eq (index .path 1) "springboot-demo1" }}
+		  {{- if eq (index .path 1) "springboot-demo1" }}
           helm:
             valueFiles:
               - values-change1.yaml
-{{- end }}
+		  {{- end }}
         syncSource:
           #targetBranch: '{{path[1]}}-hydration'
           targetBranch: temp
