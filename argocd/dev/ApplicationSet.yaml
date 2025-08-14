@@ -28,6 +28,11 @@ spec:
           #targetBranch: '{{path[1]}}-hydration'
           targetBranch: temp
           path: "{{path}}"
+{{- if eq (index .path 1) "springboot-demo1" }}
+          helm:
+            valueFiles:
+              - values-change1.yaml
+{{- end }}
         #hydrateTo:
          # targetBranch: temp
           #path: '{{path}}'
