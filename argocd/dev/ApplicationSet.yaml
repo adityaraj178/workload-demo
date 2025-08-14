@@ -25,8 +25,8 @@ spec:
           targetRevision: HEAD
           path: '{{path}}'
         syncSource:
-          #targetBranch: '{{path[1]}}-hydration'
-          targetBranch: dev-hydration
+          targetBranch: '{{path[1]}}-hydration'
+          #targetBranch: dev-hydration
           path: ""
       destination:
         server: https://kubernetes.default.svc
