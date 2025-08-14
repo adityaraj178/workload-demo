@@ -14,7 +14,7 @@ spec:
     metadata:
       name: '{{path[1]}}-dev'
     spec:
-      project: "dev"
+      project: "default"
       # source:
       #   repoURL: https://github.com/myspotontheweb/argocd-workloads-demo.git
       #   targetRevision: HEAD
