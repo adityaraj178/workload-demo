@@ -6,7 +6,7 @@ metadata:
 spec:
   generators:
   - git:
-      repoURL: https://github.com/myspotontheweb/argocd-workloads-demo.git
+      repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
       revision: HEAD
       directories:
       - path: apps/*/dev
@@ -21,7 +21,7 @@ spec:
       #   path: '{{path}}'
       sourceHydrator:
         drySource:
-          repoURL: https://github.com/myspotontheweb/argocd-workloads-demo.git
+          repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
           targetRevision: HEAD
           path: '{{path}}'
         syncSource:
