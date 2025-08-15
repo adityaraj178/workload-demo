@@ -1,4 +1,2 @@
-replicas: 1
-replicaCount: 3
 app:
-  replicaCount: 5
+  replicaCount: 3
