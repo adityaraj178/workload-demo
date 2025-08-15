@@ -1,1 +1,2 @@
-replicas: 4
+app:
+  replicaCount: 1
