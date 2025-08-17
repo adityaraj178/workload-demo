@@ -35,9 +35,8 @@ spec:
           targetBranch: temp
           path: "{{path}}"
 
-        #hydrateTo:
-         # targetBranch: temp
-          #path: '{{path}}'
+        hydrateTo:
+          targetBranch: dev-hydration
       destination:
         server: https://kubernetes.default.svc
         namespace: argocd
