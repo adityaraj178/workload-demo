@@ -12,7 +12,7 @@ spec:
               revision: HEAD
               directories:
                 - path: apps/*/dev
-          - clusters: {}
+          - clusters: in-cluster
   template:
     metadata:
       name: '{{clusters.name}}-{{path[1]}}-dev-{{path[2]}}'
