@@ -1,45 +1,49 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: dev-matrix
+  name: dev
   namespace: argocd
 spec:
   generators:
-    - matrix:
-        generators:
-          - git:
-              repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
-              revision: HEAD
-              directories:
-                - path: apps/*/dev
-          - list:
-              elements:
-                - name: in-cluster
+  - git:
+      repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
+      revision: HEAD
+      directories:
+      - path: apps/*/dev
   template:
     metadata:
-      name: '{{list.name}}-{{path[1]}}-{{path[2]}}'
+      name: '{{path[1]}}-dev'
     spec:
-      project: default
+      project: "default"
+      # source:
+      #   repoURL: https://github.com/myspotontheweb/argocd-workloads-demo.git
+      #   targetRevision: HEAD
+      #   path: '{{path}}'
       sourceHydrator:
         drySource:
           repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
           targetRevision: HEAD
           path: '{{path}}'
+          # Uncomment and fix the following lines if using templating logic
+          # {{- if eq (index .path 1) "springboot-demo1" }}
           helm:
             valueFiles:
               - values-change1.yaml
+          # {{- end }}
         syncSource:
+          #targetBranch: '{{path[1]}}-hydration'
           targetBranch: temp
-          path: '{{path}}'
+          path: "{{path}}"
+
         hydrateTo:
           targetBranch: dev-hydration
       destination:
-        server: https://kubernetes.default.svc   # Hardcoded cluster server URL here
+        server: https://kubernetes.default.svc
         namespace: argocd
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
-          - CreateNamespace=true
+        - CreateNamespace=true
 
