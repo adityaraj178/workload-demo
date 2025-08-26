@@ -15,12 +15,11 @@ spec:
           - list:
               elements:
                 - name: in-cluster
-                  server: https://kubernetes.default.svc
   template:
     metadata:
       name: '{{list.name}}-{{path[1]}}-{{path[2]}}'
     spec:
-      project: "default"
+      project: default
       sourceHydrator:
         drySource:
           repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
@@ -31,11 +30,11 @@ spec:
               - values-change1.yaml
         syncSource:
           targetBranch: temp
-          path: "{{path}}"
+          path: '{{path}}'
         hydrateTo:
           targetBranch: dev-hydration
       destination:
-        server: '{{list.server}}'
+        server: https://kubernetes.default.svc   # Hardcoded cluster server URL here
         namespace: argocd
       syncPolicy:
         automated:
