@@ -18,7 +18,7 @@ spec:
                   server: https://kubernetes.default.svc
   template:
     metadata:
-      name: '{{clusters.name}}-{{path[1]}}-{{path[2]}}'
+      name: '{{list.name}}-{{path[1]}}-{{path[2]}}'
     spec:
       project: "default"
       sourceHydrator:
@@ -35,7 +35,7 @@ spec:
         hydrateTo:
           targetBranch: dev-hydration
       destination:
-        server: '{{clusters.server}}'
+        server: '{{list.server}}'
         namespace: argocd
       syncPolicy:
         automated:
