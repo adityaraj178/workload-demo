@@ -26,9 +26,9 @@ spec:
           path: '{{path}}'
           # Uncomment and fix the following lines if using templating logic
           # {{- if eq (index .path 1) "springboot-demo1" }}
-          helm:
-            valueFiles:
-              - values-change1.yaml
+          #helm:
+            #valueFiles:
+              #- values-change1.yaml
           # {{- end }}
         syncSource:
           #targetBranch: '{{path[1]}}-hydration'
