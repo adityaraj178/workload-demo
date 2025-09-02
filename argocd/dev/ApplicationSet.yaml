@@ -40,8 +40,8 @@ spec:
       destination:
         # server: https://kubernetes.default.svc
         # namespace: argocd
-        server: '{{ .Values.destination.server | default "https://kubernetes.default.svc" }}'
-        namespace: '{{ .Values.destination.namespace | default "argocd" }}'
+        server: '{{ .Values.destination.server" }}'
+        namespace: '{{ .Values.destination.namespace }}'
       syncPolicy:
         automated:
           prune: true
