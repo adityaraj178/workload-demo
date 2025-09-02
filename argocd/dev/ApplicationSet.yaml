@@ -5,18 +5,16 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - matrix:
-      generators:
-      - list:
-          elements:
-          - appName: springboot-demo1
-            cluster: https://kubernetes.default.svc
-            namespace: springboot-demo1-dev
-            path: apps/springboot-demo1/dev
-          - appName: springboot-demo2
-            cluster: "https://127.0.0.1:34621"
-            namespace: springboot-demo2-dev
-            path: apps/springboot-demo2/dev
+  - list:
+      elements:
+      - appName: springboot-demo1
+        cluster: https://kubernetes.default.svc
+        namespace: springboot-demo1-dev
+        path: apps/springboot-demo1/dev
+      - appName: springboot-demo2
+        cluster: "https://127.0.0.1:34621"
+        namespace: springboot-demo2-dev
+        path: apps/springboot-demo2/dev
   template:
     metadata:
       name: '{{appName}}-dev'
