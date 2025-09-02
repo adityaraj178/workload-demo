@@ -38,10 +38,8 @@ spec:
         #hydrateTo:
           #targetBranch: dev-hydration
       destination:
-        # server: https://kubernetes.default.svc
-        # namespace: argocd
-        server: '{{ .Values.destination.server" }}'
-        namespace: '{{ .Values.destination.namespace }}'
+        server: https://kubernetes.default.svc
+        namespace: argocd
       syncPolicy:
         automated:
           prune: true

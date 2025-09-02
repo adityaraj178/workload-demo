@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: springboot-demo1-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
+    targetRevision: HEAD
+    path: apps/springboot-demo1/dev
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc  # in-cluster
+    namespace: springboot-demo1-dev
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
