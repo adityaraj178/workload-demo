@@ -38,7 +38,8 @@ spec:
         #hydrateTo:
           #targetBranch: dev-hydration
       destination:
-        server: https://kubernetes.default.svc
+        # server: https://kubernetes.default.svc
+        server: '{{- if eq (index .path 1) "springboot-demo1" }}https://kubernetes.default.svc{{- else if eq (index .path 1) "springboot-demo2" }}local-test2{{- else }}https://kubernetes.default.svc{{- end }}'
         namespace: argocd
       syncPolicy:
         automated:
