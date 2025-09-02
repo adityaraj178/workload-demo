@@ -1,2 +1,8 @@
 charts
 Chart.lock
+
+springboot-demo2-dev.yaml
+ui-panel.yaml
+ui-tile-updated.yaml
+ui-tile.yaml
+workload-hydrator.yaml
