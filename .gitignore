@@ -7,7 +7,7 @@ ui-tile-updated.yaml
 ui-tile.yaml
 workload-hydrator.yaml
 
-# argocd/dev/springboot-demo1-application.yaml
-# argocd/dev/springboot-demo2-application.yaml
+argocd/dev/springboot-demo1-application.yaml
+argocd/dev/springboot-demo2-application.yaml
 
-argocd/dev/ApplicationSet.yaml
+# argocd/dev/ApplicationSet.yaml
