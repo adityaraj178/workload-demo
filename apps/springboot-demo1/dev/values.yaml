@@ -3,3 +3,7 @@ app:
   image:
     repository: ghcr.io/myspotontheweb/argocd-workloads-demo/pre-prod/demo1
     tag: sha-433ed8b
+  # Deploy to in-cluster (default cluster)
+  cluster:
+    name: "in-cluster"
+    server: "https://kubernetes.default.svc"
