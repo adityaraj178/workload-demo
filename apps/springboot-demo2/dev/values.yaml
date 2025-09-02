@@ -3,6 +3,6 @@ app:
   image:
     repository: ghcr.io/myspotontheweb/argocd-workloads-demo/pre-prod/demo2
     tag: 0.0.6
-destination:
-  server: https://kubernetes.default.svc
-  namespace: argocd
+# destination:
+#   server: https://kubernetes.default.svc
+#   namespace: argocd

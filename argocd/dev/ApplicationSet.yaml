@@ -5,14 +5,21 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - git:
-      repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
-      revision: HEAD
-      directories:
-      - path: apps/*/dev
+  - matrix:
+      generators:
+      - list:
+          elements:
+          - appName: springboot-demo1
+            cluster: https://kubernetes.default.svc
+            namespace: springboot-demo1-dev
+            path: apps/springboot-demo1/dev
+          - appName: springboot-demo2
+            cluster: "https://127.0.0.1:34621"
+            namespace: springboot-demo2-dev
+            path: apps/springboot-demo2/dev
   template:
     metadata:
-      name: '{{path[1]}}-dev'
+      name: '{{appName}}-dev'
     spec:
       project: "default"
       # source:
@@ -38,8 +45,8 @@ spec:
         #hydrateTo:
           #targetBranch: dev-hydration
       destination:
-        server: https://kubernetes.default.svc
-        namespace: argocd
+        server: '{{cluster}}'
+        namespace: '{{namespace}}'
       syncPolicy:
         automated:
           prune: true
