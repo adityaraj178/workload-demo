@@ -5,16 +5,26 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - git:
-      repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
-      revision: HEAD
-      directories:
-      - path: apps/*/dev
-  template:
-    metadata:
-      name: '{{path[1]}}-dev'
-    spec:
-      project: "default"
+  - matrix:
+      generators:
+      - git:
+          repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
+          revision: HEAD
+          directories:
+          - path: apps/*/dev
+      - list:
+          elements:
+          - app: springboot-demo1
+            cluster: https://kubernetes.default.svc
+            namespace: springboot-demo1-dev
+          - app: springboot-demo2
+            cluster: "https://127.0.0.1:34621"
+            namespace: springboot-demo2-dev
+      template:
+        metadata:
+          name: '{{app}}-dev'
+        spec:
+          project: "default"
       # source:
       #   repoURL: https://github.com/myspotontheweb/argocd-workloads-demo.git
       #   targetRevision: HEAD
@@ -23,7 +33,7 @@ spec:
         drySource:
           repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
           targetRevision: HEAD
-          path: '{{path}}'
+          path: 'apps/{{app}}/dev'
           # Uncomment and fix the following lines if using templating logic
           # {{- if eq (index .path 1) "springboot-demo1" }}
           #helm:
@@ -33,13 +43,13 @@ spec:
         syncSource:
           #targetBranch: '{{path[1]}}-hydration'
           targetBranch: temp
-          path: "{{path}}"
+          path: "apps/{{app}}/dev"
 
         #hydrateTo:
           #targetBranch: dev-hydration
       destination:
-        server: https://kubernetes.default.svc
-        namespace: argocd
+        server: '{{cluster}}'
+        namespace: '{{namespace}}'
       syncPolicy:
         automated:
           prune: true

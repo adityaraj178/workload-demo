@@ -3,8 +3,4 @@ app:
   image:
     repository: ghcr.io/myspotontheweb/argocd-workloads-demo/pre-prod/demo2
     tag: 0.0.6
-  # Deploy to local-test2 cluster
-destination:
-  server: "https://127.0.0.1:34621"
-  namespace: test2-ns
 
