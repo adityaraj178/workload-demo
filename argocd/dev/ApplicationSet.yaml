@@ -1,3 +1,62 @@
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: dev
+#   namespace: argocd
+# spec:
+#   generators:
+#   - list:
+#       elements:
+#       - appName: springboot-demo1-cluster1
+#         cluster: https://kubernetes.default.svc
+#         namespace: springboot-demo1-dev-cluster1
+#         path: apps/springboot-demo1/dev
+#       - appName: springboot-demo1-cluster2
+#         cluster: "https://127.0.0.1:34621"
+#         namespace: springboot-demo1-dev-cluster2
+#         path: apps/springboot-demo1/dev
+#       # - appName: springboot-demo2
+#       #   cluster: "https://127.0.0.1:34621"
+#       #   namespace: springboot-demo2-dev
+#       #   path: apps/springboot-demo2/dev
+#   template:
+#     metadata:
+#       name: '{{appName}}-dev'
+#     spec:
+#       project: "default"
+#       # source:
+#       #   repoURL: https://github.com/myspotontheweb/argocd-workloads-demo.git
+#       #   targetRevision: HEAD
+#       #   path: '{{path}}'
+#       sourceHydrator:
+#         drySource:
+#           repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
+#           targetRevision: HEAD
+#           path: '{{path}}'
+#           # Uncomment and fix the following lines if using templating logic
+#           # {{- if eq (index .path 1) "springboot-demo1" }}
+#           #helm:
+#             #valueFiles:
+#               #- values-change1.yaml
+#           # {{- end }}
+#         syncSource:
+#           #targetBranch: '{{path[1]}}-hydration'
+#           targetBranch: temp
+#           path: "{{path}}"
+
+#         #hydrateTo:
+#           #targetBranch: dev-hydration
+#       destination:
+#         server: '{{cluster}}'
+#         namespace: '{{namespace}}'
+#       syncPolicy:
+#         automated:
+#           prune: true
+#           selfHeal: true
+#         syncOptions:
+#         - CreateNamespace=true
+
+
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -5,54 +64,36 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - list:
-      elements:
-      - appName: springboot-demo1-cluster1
-        cluster: https://kubernetes.default.svc
-        namespace: springboot-demo1-dev-cluster1
+  - clusters:
+      selector:
+        matchExpressions:
+        - key: server
+          operator: In
+          values:
+          - "https://kubernetes.default.svc"
+          - "https://127.0.0.1:34621"
+      values:
+        appName: springboot-demo1
         path: apps/springboot-demo1/dev
-      - appName: springboot-demo1-cluster2
-        cluster: "https://127.0.0.1:34621"
-        namespace: springboot-demo1-dev-cluster2
-        path: apps/springboot-demo1/dev
-      # - appName: springboot-demo2
-      #   cluster: "https://127.0.0.1:34621"
-      #   namespace: springboot-demo2-dev
-      #   path: apps/springboot-demo2/dev
   template:
     metadata:
-      name: '{{appName}}-dev'
+      name: '{{values.appName}}-{{name}}-dev'
     spec:
       project: "default"
-      # source:
-      #   repoURL: https://github.com/myspotontheweb/argocd-workloads-demo.git
-      #   targetRevision: HEAD
-      #   path: '{{path}}'
       sourceHydrator:
         drySource:
           repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
           targetRevision: HEAD
-          path: '{{path}}'
-          # Uncomment and fix the following lines if using templating logic
-          # {{- if eq (index .path 1) "springboot-demo1" }}
-          #helm:
-            #valueFiles:
-              #- values-change1.yaml
-          # {{- end }}
+          path: '{{values.path}}'
         syncSource:
-          #targetBranch: '{{path[1]}}-hydration'
           targetBranch: temp
-          path: "{{path}}"
-
-        #hydrateTo:
-          #targetBranch: dev-hydration
+          path: "{{values.path}}"
       destination:
-        server: '{{cluster}}'
-        namespace: '{{namespace}}'
+        server: '{{server}}'
+        namespace: '{{values.appName}}-{{name}}-dev'
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
         - CreateNamespace=true
-
