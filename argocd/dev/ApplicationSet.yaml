@@ -7,18 +7,18 @@ spec:
   generators:
   - list:
       elements:
-      - appName: springboot-demo1
+      - appName: springboot-demo1-cluster1
         cluster: https://kubernetes.default.svc
-        namespace: springboot-demo1-dev
+        namespace: springboot-demo1-dev-cluster1
         path: apps/springboot-demo1/dev
-      - appName: springboot-demo1-test2
+      - appName: springboot-demo1-cluster2
         cluster: "https://127.0.0.1:34621"
-        namespace: springboot-demo1-dev
+        namespace: springboot-demo1-dev-cluster2
         path: apps/springboot-demo1/dev
-      - appName: springboot-demo2
-        cluster: "https://127.0.0.1:34621"
-        namespace: springboot-demo2-dev
-        path: apps/springboot-demo2/dev
+      # - appName: springboot-demo2
+      #   cluster: "https://127.0.0.1:34621"
+      #   namespace: springboot-demo2-dev
+      #   path: apps/springboot-demo2/dev
   template:
     metadata:
       name: '{{appName}}-dev'
