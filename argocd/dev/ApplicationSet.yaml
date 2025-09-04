@@ -96,7 +96,5 @@ spec:
           prune: true
           selfHeal: true
         syncOptions:
-        - CreateNamespace=true
-        syncOptions:
         - CreateNamespace=true 
         - "IncludeResource=argocd.argoproj.io/application-name={{values.appName}}-{{name}}-dev"
