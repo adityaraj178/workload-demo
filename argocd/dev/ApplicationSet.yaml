@@ -70,8 +70,8 @@ spec:
         - key: server
           operator: In
           values:
-          - "https://kubernetes.default.svc"
-          - "https://127.0.0.1:34621"
+          - "test2"
+          - "test3"
       values:
         appName: springboot-demo1
         path: apps/springboot-demo1/dev
@@ -82,7 +82,7 @@ spec:
       project: "default"
       sourceHydrator:
         drySource:
-          repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
+          repoURL: https://github.com/adityaraj178/workload-demo.git
           targetRevision: HEAD
           path: '{{values.path}}'
         syncSource:

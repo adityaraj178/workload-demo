@@ -3,6 +3,6 @@ app:
   image:
     repository: ghcr.io/myspotontheweb/argocd-workloads-demo/pre-prod/demo1
     tag: sha-433ed8b
-destination:
-  server: https://127.0.0.1:34621
-  namespace: test2-ns
+# destination:
+#   server: https://127.0.0.1:34621
+#   namespace: test2-ns
