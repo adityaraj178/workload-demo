@@ -57,6 +57,7 @@
 #         - CreateNamespace=true
 
 
+
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -64,37 +65,89 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - clusters:
-      selector:
-        matchExpressions:
-        - key: server
-          operator: In
-          values:
-          - "test2"
-          - "test3"
-      values:
-        appName: springboot-demo1
+  - list:
+      elements:
+      - appName: springboot-demo1
+        cluster: https://kubernetes.default.svc
+        namespace: argocd
         path: apps/springboot-demo1/dev
+      - appName: springboot-demo2
+        cluster: https://kubernetes.default.svc
+        namespace: argocd
+        path: apps/springboot-demo2/dev
   template:
     metadata:
-      name: '{{values.appName}}-{{name}}-dev'
+      name: '{{appName}}-dev'
     spec:
       project: "default"
-      sourceHydrator:
-        drySource:
-          repoURL: https://github.com/adityaraj178/workload-demo.git
-          targetRevision: HEAD
-          path: '{{values.path}}'
-        syncSource:
-          targetBranch: temp
-          path: "{{values.path}}"
+      # sourceHydrator:
+      #   drySource:
+      #     repoURL: https://bitbucket.gob.amadeus.net/scm/~paraj5/workload-demo.git
+      #     targetRevision: HEAD
+      #     path: '{{path}}'
+      #     # helm:
+      #     #   valueFiles:
+      #     #   - '{{valuesFile}}'
+      #   syncSource:
+      #     targetBranch: temp
+      #     path: "{{path}}/{{appName}}"
+      # destination:
+      #   server: '{{cluster}}'
+      #   namespace: '{{appName}}'
+      source:
+        repoURL: https://github.com/adityaraj178/workload-demo.git
+        targetRevision: HEAD
+        path: '{{path}}'
       destination:
-        server: '{{server}}'
-        namespace: '{{values.appName}}-{{name}}-dev'
+        server: '{{cluster}}' 
+        namespace: '{{appName}}'
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
-        - CreateNamespace=true 
-        - "IncludeResource=argocd.argoproj.io/application-name={{values.appName}}-{{name}}-dev"
+        - CreateNamespace=true
+
+
+
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: dev
+#   namespace: argocd
+# spec:
+#   generators:
+#   - clusters:
+#       selector:
+#         matchExpressions:
+#         - key: server
+#           operator: In
+#           values:
+#           - "test2"
+#           - "test3"
+#       values:
+#         appName: springboot-demo1
+#         path: apps/springboot-demo1/dev
+#   template:
+#     metadata:
+#       name: '{{values.appName}}-{{name}}-dev'
+#     spec:
+#       project: "default"
+#       sourceHydrator:
+#         drySource:
+#           repoURL: https://github.com/adityaraj178/workload-demo.git
+#           targetRevision: HEAD
+#           path: '{{values.path}}'
+#         syncSource:
+#           targetBranch: temp
+#           path: "{{values.path}}"
+#       destination:
+#         server: '{{server}}'
+#         namespace: '{{values.appName}}-{{name}}-dev'
+#       syncPolicy:
+#         automated:
+#           prune: true
+#           selfHeal: true
+#         syncOptions:
+#         - CreateNamespace=true 
+#         - "IncludeResource=argocd.argoproj.io/application-name={{values.appName}}-{{name}}-dev"
