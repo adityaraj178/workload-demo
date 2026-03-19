@@ -1,9 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app
+  name: my-app   # same name → conflict
+  labels:
+    app: my-app
+    owner: app2
 spec:
-  replicas: 2
+  replicas: 2   # different spec to show drift
   selector:
     matchLabels:
       app: my-app
@@ -11,7 +14,8 @@ spec:
     metadata:
       labels:
         app: my-app
+        owner: app2
     spec:
       containers:
-        - name: my-container
+        - name: nginx
           image: nginx:latest
